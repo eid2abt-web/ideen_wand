@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WagDas! ZeigDas! – Die Bosch Ideenplattform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   WagDas! ZeigDas! — Interne Ideenplattform (Prototyp)
+   Design nach Bosch Design Guide:
+   – Supergraphic NUR am oberen Rand
+   – Rot NUR im Bosch-Logo
+   – scharfe, eckige Kanten für alle Flächen (Pills/Badges dürfen rund sein)
+   – Bosch Blau #007BC0 als primäre Aktivfarbe
+   ============================================================ */
+
+:root{
+  --blau:      #007BC0;
+  --blau-dark: #00629A;
+  --purpur:    #9E2896;
+  --tuerkis:   #18837E;
+  --gruen:     #00884A;
+  --navy:      #00193C;
+  --navy-2:    #003B6F;
+  --rot:       #ED0007;   /* ausschließlich Logo */
+  --grau:      #EFF1F2;
+  --grau-2:    #D0D4D8;
+  --ink:       #000000;
+  --ink-60:    #4E5256;
+  --ink-40:    #8A9097;
+  --white:     #FFFFFF;
+  --shadow:    0 1px 2px rgba(0,25,60,.06), 0 6px 20px rgba(0,25,60,.07);
+  --shadow-lg: 0 8px 40px rgba(0,25,60,.22);
+  --font: 'Bosch Sans','Open Sans',-apple-system,'Segoe UI',sans-serif;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font);
+  color:var(--ink);
+  background:var(--white);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+button{ font-family:inherit; cursor:pointer; }
+img,video{ display:block; max-width:100%; }
+a{ color:var(--blau); }
+
+:focus-visible{ outline:3px solid var(--blau); outline-offset:2px; }
+
+/* ---------- Supergraphic: nur ganz oben ---------- */
+.supergraphic{
+  height:6px; width:100%;
+  background:linear-gradient(90deg,
+    #ED0007 0%, #ED0007 8%,
+    #9E2896 26%,
+    #007BC0 50%,
+    #18837E 72%,
+    #00884A 92%, #00884A 100%);
+}
+
+/* ---------- Header ---------- */
+header.site{
+  position:sticky; top:0; z-index:60;
+  background:var(--white);
+  border-bottom:1px solid var(--grau);
+}
+.header-inner{
+  max-width:1240px; margin:0 auto;
+  display:flex; align-items:center; gap:20px;
+  padding:14px 24px;
+}
+.bosch-logo{
+  font-weight:800; font-size:1.35rem; letter-spacing:.02em;
+  color:var(--rot); text-decoration:none; line-height:1;
+}
+.wordmark{
+  font-weight:800; font-size:1.05rem; color:var(--ink);
+  white-space:nowrap;
+}
+.wordmark small{
+  display:block; font-weight:400; font-size:.72rem; color:var(--ink-60);
+  letter-spacing:.01em;
+}
+.header-spacer{ flex:1; }
+
+/* Hinweis-Badge im Header, nur sichtbar wenn Admin eingeloggt ist */
+.admin-badge{
+  display:none; font-size:.72rem; font-weight:700;
+  color:var(--white); background:var(--purpur); padding:4px 10px;
+}
+body.admin .admin-badge{ display:inline-block; }
+
+.btn{
+  border:none; font-weight:700; font-size:.9rem;
+  padding:11px 20px; display:inline-flex; align-items:center; gap:8px;
+  transition:background .15s, color .15s, border-color .15s;
+  border-radius:0; /* eckig! */
+}
+.btn-primary{ background:var(--blau); color:var(--white); }
+.btn-primary:hover{ background:var(--blau-dark); }
+.btn-ghost{
+  background:transparent; color:var(--blau);
+  border:2px solid var(--blau); padding:9px 18px;
+}
+.btn-ghost:hover{ background:var(--blau); color:var(--white); }
+.btn .chev{ font-weight:800; }
+
+/* ---------- Hero (dunkelblaue Fläche) ---------- */
+.hero{
+  background:var(--navy); color:var(--white);
+}
+.hero-inner{
+  max-width:1240px; margin:0 auto;
+  padding:64px 24px 56px;
+  display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:48px;
+  align-items:center;
+}
+.hero h1{
+  font-size:clamp(2rem, 4.2vw, 3.4rem);
+  font-weight:800; line-height:1.08; letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.hero h1 em{ font-style:normal; color:var(--blau); }
+.hero p.sub{
+  margin-top:18px; font-size:1.02rem; color:#C6D2E0; max-width:56ch;
+}
+.hero-cta{ margin-top:28px; display:flex; gap:14px; flex-wrap:wrap; }
+.hero .btn-ghost{ color:var(--white); border-color:var(--white); }
+.hero .btn-ghost:hover{ background:var(--white); color:var(--navy); }
+
+/* kleine "So funktioniert's"-Kacheln rechts im Hero */
+.hero-steps{ display:grid; gap:2px; background:var(--navy-2); border:1px solid var(--navy-2); }
+.hero-step{
+  background:var(--navy); padding:16px 18px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.hero-step svg{ flex:none; width:26px; height:26px; stroke:var(--white); margin-top:2px; }
+.hero-step b{ display:block; font-size:.92rem; }
+.hero-step span{ font-size:.8rem; color:#9FB1C6; }
+
+/* ---------- Tab-/Filterleiste ---------- */
+.toolbar{
+  position:sticky; top:63px; z-index:50;
+  background:var(--white); border-bottom:1px solid var(--grau);
+}
+.toolbar-inner{
+  max-width:1240px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+}
+.tabs{ display:flex; gap:2px; }
+.tab{
+  background:transparent; border:none;
+  padding:14px 16px 11px; font-weight:700; font-size:.9rem;
+  color:var(--ink-60); border-bottom:3px solid transparent;
+}
+.tab:hover{ color:var(--ink); }
+.tab[aria-selected="true"]{ color:var(--blau); border-bottom-color:var(--blau); }
+.toolbar-spacer{ flex:1; }
+.chips{ display:flex; gap:8px; flex-wrap:wrap; padding:10px 0; }
+.chip{
+  border:1px solid var(--grau-2); background:var(--white);
+  font-size:.75rem; font-weight:600; color:var(--ink-60);
+  padding:5px 12px; border-radius:999px; /* Pills dürfen rund sein */
+}
+.chip:hover{ border-color:var(--ink-60); color:var(--ink); }
+.chip.active{ background:var(--ink); border-color:var(--ink); color:var(--white); }
+
+/* ---------- Feed ---------- */
+main{ max-width:1240px; margin:0 auto; padding:28px 24px 80px; }
+.feed{
+  display:grid; gap:24px;
+  grid-template-columns:repeat(auto-fill, minmax(330px, 1fr));
+}
+.feed-empty{
+  grid-column:1/-1; text-align:center; padding:70px 20px;
+  background:var(--grau); color:var(--ink-60);
+}
+.feed-empty b{ display:block; color:var(--ink); font-size:1.1rem; margin-bottom:6px; }
+
+/* ---------- Card ---------- */
+.card{
+  background:var(--white);
+  border:1px solid var(--grau);
+  box-shadow:var(--shadow);
+  display:flex; flex-direction:column;
+  transition:box-shadow .2s, transform .2s;
+}
+.card:hover{ box-shadow:0 2px 4px rgba(0,25,60,.08), 0 14px 34px rgba(0,25,60,.12); }
+.card.highlight{ outline:3px solid var(--blau); outline-offset:2px; }
+
+/* Medien-Grid: 1/2/3/4 Layouts */
+.media-grid{ display:grid; gap:2px; background:var(--white); cursor:pointer; }
+.media-grid[data-n="1"]{ grid-template-columns:1fr; }
+.media-grid[data-n="2"]{ grid-template-columns:1fr 1fr; }
+.media-grid[data-n="3"]{ grid-template-columns:2fr 1fr; grid-template-rows:1fr 1fr; }
+.media-grid[data-n="3"] .media-item:first-child{ grid-row:1/3; }
+.media-grid[data-n="4"]{ grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
+.media-item{ position:relative; overflow:hidden; background:var(--grau); }
+.media-grid[data-n="1"] .media-item{ aspect-ratio:16/9; }
+.media-grid[data-n="2"] .media-item{ aspect-ratio:1/1; }
+.media-grid[data-n="4"] .media-item{ aspect-ratio:4/3; }
+.media-grid[data-n="3"] .media-item{ aspect-ratio:auto; min-height:90px; }
+.media-item img, .media-item video{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .35s ease;
+}
+.card:hover .media-item img{ transform:scale(1.03); }
+.play-badge{
+  position:absolute; inset:0; display:grid; place-items:center;
+  background:rgba(0,25,60,.35);
+}
+.play-badge span{
+  width:52px; height:52px; background:var(--white);
+  display:grid; place-items:center;
+}
+.play-badge svg{ width:20px; height:20px; fill:var(--navy); margin-left:3px; }
+
+.card-body{ padding:16px 18px 6px; flex:1; }
+.card-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.tag{
+  font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--white); padding:3px 9px;
+}
+.badge{
+  font-size:.68rem; font-weight:700; padding:3px 9px; border-radius:999px;
+}
+.badge-boost{ background:#F3E4F1; color:var(--purpur); }
+.badge-pick{ background:var(--purpur); color:var(--white); }
+.card h3{ font-size:1.08rem; font-weight:800; line-height:1.3; }
+.card .pitch{ margin-top:8px; font-size:.9rem; color:var(--ink-60); }
+.byline{
+  margin-top:12px; display:flex; align-items:center; gap:9px;
+  font-size:.78rem; color:var(--ink-40);
+}
+.avatar{
+  width:26px; height:26px; border-radius:50%;
+  background:var(--navy); color:var(--white);
+  display:grid; place-items:center;
+  font-size:.68rem; font-weight:800; flex:none;
+}
+.byline b{ color:var(--ink-60); font-weight:600; }
+
+/* Aktionen: Vote / Kommentare / Teilen */
+.card-actions{
+  display:flex; align-items:center; gap:4px;
+  padding:10px 12px; border-top:1px solid var(--grau); margin-top:12px;
+}
+.act{
+  background:transparent; border:none;
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:.83rem; font-weight:700; color:var(--ink-60);
+  padding:7px 10px;
+}
+.act:hover{ background:var(--grau); color:var(--ink); }
+.act svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.act-vote.voted{ color:var(--blau); }
+.act-vote.voted svg{ fill:var(--blau); stroke:var(--blau); }
+.act-vote .count{ min-width:1.5ch; text-align:left; }
+.act-vote.pop .count{ animation:pop .3s ease; }
+@keyframes pop{ 40%{ transform:scale(1.45); } }
+.act-share{ margin-left:auto; }
+
+/* Kommentare */
+.comments{ display:none; border-top:1px solid var(--grau); padding:14px 18px; background:#FAFBFB; }
+.comments.open{ display:block; }
+.comment{ display:flex; gap:10px; margin-bottom:12px; font-size:.83rem; }
+.comment .avatar{ width:24px; height:24px; font-size:.6rem; }
+.comment b{ font-size:.78rem; }
+.comment p{ color:var(--ink-60); }
+.comment-form{ display:flex; gap:8px; flex-wrap:wrap; }
+.comment-form input{
+  border:1px solid var(--grau-2); padding:9px 12px;
+  font-family:inherit; font-size:.83rem; border-radius:0;
+}
+.comment-form .c-name{ flex:1 1 110px; max-width:150px; }
+.comment-form .c-text{ flex:3 1 180px; }
+.comment-form input:focus{ border-color:var(--blau); outline:none; }
+.comment-form button{ padding:9px 14px; }
+
+/* Admin-Leiste an der Card */
+.admin-bar{
+  display:none; gap:8px; align-items:center;
+  padding:10px 14px; background:#F7ECF6; border-top:1px dashed var(--purpur);
+}
+body.admin .admin-bar{ display:flex; }
+.admin-bar .abtn{
+  border:1px solid var(--purpur); background:var(--white); color:var(--purpur);
+  font-size:.72rem; font-weight:700; padding:5px 10px;
+}
+.admin-bar .abtn:hover{ background:var(--purpur); color:var(--white); }
+.admin-bar .abtn.on{ background:var(--purpur); color:var(--white); }
+.admin-bar .ainfo{ font-size:.72rem; color:var(--purpur); margin-left:auto; font-weight:600; }
+
+/* ---------- Footer ---------- */
+footer{
+  background:var(--navy); color:#C6D2E0; margin-top:40px;
+}
+.footer-inner{
+  max-width:1240px; margin:0 auto; padding:44px 24px;
+  display:flex; gap:32px; flex-wrap:wrap; align-items:flex-start;
+}
+footer .fcol{ flex:1; min-width:220px; }
+footer b{ color:var(--white); display:block; margin-bottom:8px; font-size:.95rem; }
+footer p, footer button.linklike{ font-size:.83rem; }
+footer .linklike{
+  background:none; border:none; color:var(--white);
+  text-decoration:underline; padding:0; font-family:inherit;
+}
+footer .fine{ font-size:.72rem; color:#7E93AC; margin-top:14px; }
+
+/* ---------- Modals allgemein ---------- */
+.modal{
+  position:fixed; inset:0; z-index:100; display:none;
+  background:rgba(0,10,25,.62);
+  align-items:flex-start; justify-content:center;
+  overflow-y:auto; padding:5vh 16px 6vh;
+}
+.modal.open{ display:flex; }
+.modal-box{
+  background:var(--white); width:100%; max-width:640px;
+  box-shadow:var(--shadow-lg); position:relative;
+  animation:rise .22s ease;
+}
+@keyframes rise{ from{ transform:translateY(16px); opacity:0; } }
+.modal-head{
+  display:flex; align-items:flex-start; gap:16px;
+  padding:22px 24px 0;
+}
+.modal-head h2{ font-size:1.3rem; font-weight:800; }
+.modal-head p{ font-size:.83rem; color:var(--ink-60); margin-top:4px; }
+.modal-close{
+  margin-left:auto; flex:none;
+  width:36px; height:36px; border:none; background:var(--grau);
+  font-size:1.1rem; font-weight:700; line-height:1;
+}
+.modal-close:hover{ background:var(--grau-2); }
+.modal-body{ padding:18px 24px 24px; }
+
+/* ---------- Formular „Idee posten" ---------- */
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:.8rem; font-weight:700; margin-bottom:6px; }
+.field label span{ font-weight:400; color:var(--ink-40); }
+.field input[type=text], .field input[type=password], .field textarea{
+  width:100%; border:1px solid var(--grau-2); background:var(--white);
+  padding:11px 12px; font-family:inherit; font-size:.92rem; border-radius:0;
+}
+.field textarea{ resize:vertical; min-height:84px; }
+.field input:focus, .field textarea:focus{ border-color:var(--blau); outline:none; }
+.char-counter{ text-align:right; font-size:.72rem; color:var(--ink-40); margin-top:4px; }
+.char-counter.limit{ color:var(--purpur); font-weight:700; }
+
+.cat-select{ display:flex; gap:8px; flex-wrap:wrap; }
+.cat-opt{
+  border:1px solid var(--grau-2); background:var(--white);
+  font-size:.78rem; font-weight:600; padding:7px 13px; border-radius:999px;
+  color:var(--ink-60);
+}
+.cat-opt.active{ color:var(--white); border-color:transparent; }
+
+.dropzone{
+  border:2px dashed var(--grau-2); background:var(--grau);
+  padding:26px 16px; text-align:center; font-size:.85rem; color:var(--ink-60);
+  cursor:pointer; transition:border-color .15s, background .15s;
+}
+.dropzone:hover, .dropzone.drag{ border-color:var(--blau); background:#EAF4FB; }
+.dropzone b{ color:var(--blau); }
+.upload-previews{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.up-thumb{ position:relative; width:86px; height:86px; }
+.up-thumb img, .up-thumb .vph{
+  width:100%; height:100%; object-fit:cover; border:1px solid var(--grau-2);
+}
+.up-thumb .vph{ background:var(--navy); display:grid; place-items:center; color:var(--white); font-size:.62rem; font-weight:700; }
+.up-thumb button{
+  position:absolute; top:-7px; right:-7px;
+  width:20px; height:20px; border:none; background:var(--ink); color:var(--white);
+  font-size:.7rem; line-height:1; border-radius:50%;
+}
+.form-hint{ font-size:.78rem; color:var(--ink-60); background:var(--grau); padding:10px 12px; margin-bottom:16px; }
+.form-legal{ font-size:.72rem; color:var(--ink-40); margin-top:14px; }
+.form-error{ display:none; font-size:.8rem; font-weight:700; color:var(--purpur); margin-bottom:12px; }
+.form-error.show{ display:block; }
+.modal-actions{ display:flex; gap:12px; margin-top:20px; }
+
+/* ---------- Lightbox ---------- */
+.lightbox{
+  position:fixed; inset:0; z-index:120; display:none;
+  background:rgba(0,8,20,.92);
+  flex-direction:column; align-items:center; justify-content:center;
+}
+.lightbox.open{ display:flex; }
+.lb-stage{ max-width:min(1100px, 92vw); max-height:78vh; display:grid; place-items:center; }
+.lb-stage img, .lb-stage video{ max-width:100%; max-height:78vh; object-fit:contain; }
+.lb-counter{ color:var(--white); font-size:.85rem; font-weight:600; margin-top:16px; }
+.lb-btn{
+  position:fixed; top:50%; transform:translateY(-50%);
+  width:48px; height:48px; border:none; background:rgba(255,255,255,.12);
+  color:var(--white); font-size:1.3rem; font-weight:800;
+}
+.lb-btn:hover{ background:var(--blau); }
+.lb-prev{ left:18px; } .lb-next{ right:18px; }
+.lb-close{
+  position:fixed; top:18px; right:18px;
+  width:44px; height:44px; border:none; background:rgba(255,255,255,.12);
+  color:var(--white); font-size:1.15rem; font-weight:700;
+}
+.lb-close:hover{ background:var(--rot); }
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translate(-50%, 20px);
+  background:var(--navy); color:var(--white);
+  padding:12px 20px; font-size:.86rem; font-weight:600;
+  opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
+  z-index:140; box-shadow:var(--shadow-lg);
+}
+.toast.show{ opacity:1; transform:translate(-50%,0); }
+
+/* ---------- Mobile FAB ---------- */
+.fab{
+  display:none; position:fixed; right:18px; bottom:18px; z-index:70;
+  width:58px; height:58px; border:none;
+  background:var(--blau); color:var(--white);
+  font-size:1.7rem; font-weight:400; line-height:1;
+  box-shadow:var(--shadow-lg);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px){
+  .hero-inner{ grid-template-columns:1fr; padding:44px 20px 40px; gap:28px; }
+}
+@media (max-width: 720px){
+  .header-inner{ padding:12px 16px; gap:12px; }
+  .wordmark small{ display:none; }
+  #btnOpenPostTop{ display:none; }
+  .fab{ display:block; }
+  .toolbar{ top:57px; }
+  .toolbar-inner{ padding:0 16px; }
+  .tab{ padding:12px 10px 9px; font-size:.83rem; }
+  main{ padding:20px 16px 90px; }
+  .feed{ grid-template-columns:1fr; }
+  .modal{ padding:0; align-items:stretch; }
+  .modal-box{ max-width:none; min-height:100%; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+  html{ scroll-behavior:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- Supergraphic – ausschließlich am oberen Rand -->
+<div class="supergraphic" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site">
+  <div class="header-inner">
+    <a class="bosch-logo" href="#" aria-label="Bosch">BOSCH</a>
+    <div class="wordmark">WagDas! ZeigDas!
+      <small>Offen für alle Bosch-Mitarbeitenden · ohne Anmeldung</small>
+    </div>
+    <div class="header-spacer"></div>
+    <span class="admin-badge">ADMIN</span>
+    <button class="btn btn-primary" id="btnOpenPostTop"><span class="chev">&gt;</span> Idee posten</button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Bosch braucht neue Ideen –<br>und zwar <em>deine.</em></h1>
+      <p class="sub">Ob Produktidee, besserer Ablauf, ein Tool, das dir das Leben leichter machen
+      würde, oder etwas herrlich Verrücktes: Hier zählt jeder Einfall. Lass dir von KI in Minuten
+      Bilder dazu bauen, schreib einen Satz und poste. Kein Konzeptpapier, kein Login, keine Ausreden.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" data-open-post><span class="chev">&gt;</span> Idee posten</button>
+        <a class="btn btn-ghost" href="#feed">Ideen ansehen</a>
+      </div>
+    </div>
+    <div class="hero-steps" aria-label="So funktioniert es">
+      <div class="hero-step">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 3v12M12 3l-4 4M12 3l4 4M4 15v5h16v-5"/></svg>
+        <div><b>Posten in 60 Sekunden</b><span>Ein Titel, ein Satz, optional Bilder oder ein Video.</span></div>
+      </div>
+      <div class="hero-step">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 20V9M12 9l-5 5M12 9l5 5"/><path d="M4 4h16"/></svg>
+        <div><b>Community voten lassen</b><span>Upvotes bringen deine Idee nach oben. Keine Downvotes.</span></div>
+      </div>
+      <div class="hero-step">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+        <div><b>Sichtbar bleiben</b><span>Kein Sprint, keine Deadline. Gute Ideen bleiben dauerhaft im Feed.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOOLBAR ================= -->
+<div class="toolbar" id="feed">
+  <div class="toolbar-inner">
+    <div class="tabs" role="tablist" aria-label="Sortierung">
+      <button class="tab" role="tab" data-tab="beliebt" aria-selected="true">Beliebt</button>
+      <button class="tab" role="tab" data-tab="neu" aria-selected="false">Neu</button>
+      <button class="tab" role="tab" data-tab="trending" aria-selected="false">Trending</button>
+      <button class="tab" role="tab" data-tab="picks" aria-selected="false">Admin Picks</button>
+    </div>
+    <div class="toolbar-spacer"></div>
+    <div class="chips" id="catChips" aria-label="Kategorien"></div>
+  </div>
+</div>
+
+<!-- ================= FEED ================= -->
+<main>
+  <div class="feed" id="feedGrid"></div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="footer-inner">
+    <div class="fcol">
+      <b>WagDas! ZeigDas!</b>
+      <p>Die interne Ideenplattform für Bosch-Mitarbeitende. Frühe Ideen sichtbar machen,
+      Feedback bekommen, gemeinsam weiterdenken. Hart zur Idee, freundlich zum Menschen.</p>
+    </div>
+    <div class="fcol">
+      <b>Spielregeln</b>
+      <p><button class="linklike" data-open-legal>Hinweise zu Ideenrechten &amp; Nutzung</button></p>
+      <p class="fine">Prototyp · ersetzt keine offiziellen Freigabe-, Patent-, Datenschutz- oder
+      Compliance-Prozesse. Vor Launch: Abstimmung mit Legal, Compliance &amp; Datenschutz.</p>
+      <p class="fine"><button class="linklike" id="adminLoginBtn" style="color:#7E93AC">Admin Login</button></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= MODAL: ADMIN LOGIN ================= -->
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head">
+      <div>
+        <h2 id="adminTitle">Admin Login</h2>
+        <p>Nur für das Plattformteam. Codewort eingeben.</p>
+      </div>
+      <button class="modal-close" data-close-modal aria-label="Schließen">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-error" id="adminError"></div>
+      <div class="field">
+        <label for="adminCode">Codewort</label>
+        <input type="password" id="adminCode" autocomplete="off" placeholder="••••••••">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btnAdminSubmit"><span class="chev">&gt;</span> Anmelden</button>
+        <button class="btn btn-ghost" data-close-modal>Abbrechen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" data-open-post aria-label="Idee posten">+</button>
+
+<!-- ================= MODAL: IDEE POSTEN ================= -->
+<div class="modal" id="postModal" role="dialog" aria-modal="true" aria-labelledby="postModalTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h2 id="postModalTitle">Neue Idee posten</h2>
+        <p>Deine Idee muss nicht perfekt sein. Ein grober Einfall reicht. Hauptsache sichtbar.</p>
+      </div>
+      <button class="modal-close" data-close-modal aria-label="Schließen">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-error" id="formError"></div>
+
+      <div class="field">
+        <label for="fTitle">Titel der Idee</label>
+        <input type="text" id="fTitle" maxlength="90" placeholder="z. B. Schraubendreher, der Drehmoment automatisch erkennt">
+      </div>
+
+      <div class="field">
+        <label for="fPitch">Pitch <span>· max. 280 Zeichen</span></label>
+        <textarea id="fPitch" maxlength="280" placeholder="Worum geht es? Warum wäre das gut? Ein bis drei Sätze reichen."></textarea>
+        <div class="char-counter" id="pitchCounter">0 / 280</div>
+      </div>
+
+      <div class="field">
+        <label>Kategorie</label>
+        <div class="cat-select" id="catSelect"></div>
+      </div>
+
+      <div class="field">
+        <label>Bilder <span>· bis zu 4 · gern KI-generiert</span></label>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Bilder hochladen">
+          Bilder hierher ziehen oder <b>klicken zum Auswählen</b>
+        </div>
+        <input type="file" id="fileImages" accept="image/*" multiple hidden>
+        <div class="upload-previews" id="imgPreviews"></div>
+      </div>
+
+      <div class="field">
+        <label>Video <span>· optional, 1 Datei</span></label>
+        <button class="btn btn-ghost" id="btnVideo" type="button">Video auswählen</button>
+        <input type="file" id="fileVideo" accept="video/*" hidden>
+        <div class="upload-previews" id="vidPreview"></div>
+      </div>
+
+      <div class="field">
+        <label for="fAuthor">Dein Name <span>· optional, leer = anonym</span></label>
+        <input type="text" id="fAuthor" maxlength="40" placeholder="anonym">
+      </div>
+
+      <p class="form-legal">Mit dem Posten bestätigst du, dass du berechtigt bist, diese Idee und
+      die Medien einzureichen, und erlaubst Bosch die interne Nutzung (Anzeigen, Bewerten,
+      Kommentieren, Weiterentwickeln). Keine vertraulichen Daten, keine fremden Marken.
+      <button class="linklike" data-open-legal style="color:var(--blau)">Alle Hinweise lesen</button></p>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btnPublish"><span class="chev">&gt;</span> Idee veröffentlichen</button>
+        <button class="btn btn-ghost" data-close-modal>Abbrechen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: RECHTE / DISCLAIMER ================= -->
+<div class="modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><h2 id="legalTitle">Hinweise zu Ideenrechten &amp; Nutzung</h2></div>
+      <button class="modal-close" data-close-modal aria-label="Schließen">✕</button>
+    </div>
+    <div class="modal-body" style="font-size:.88rem; color:var(--ink-60)">
+      <p style="margin-bottom:12px">Die Idee bleibt sichtbar mit deiner Autorenschaft verbunden.
+      Mit dem Posten erlaubst du Bosch, die Idee intern zu prüfen, zu diskutieren, zu präsentieren
+      und gegebenenfalls als Prototyp weiterzuentwickeln.</p>
+      <p style="margin-bottom:12px">Bitte poste keine vertraulichen Daten, keine fremden Marken,
+      keine personenbezogenen Daten und keine Inhalte, an denen du keine Rechte hast.
+      KI-generierte Bilder sind willkommen, sofern sie keine Rechte Dritter verletzen.</p>
+      <p style="margin-bottom:12px">Votes zeigen Resonanz in der Community – sie sind kein
+      verbindliches Qualitätsurteil und kein Anspruch auf Umsetzung. Für Erfindungen,
+      Schutzrechte und mögliche Umsetzungen gelten die anwendbaren Bosch-Regeln und
+      gesetzlichen Vorgaben. Details regeln die internen Teilnahmebedingungen.</p>
+      <p style="font-weight:700; color:var(--ink)">Im Zweifel: Lieber abstrakt erklären als vertraulich zeigen.<br>
+      Und immer: Hart zur Idee, freundlich zum Menschen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Mediengalerie">
+  <button class="lb-close" id="lbClose" aria-label="Schließen">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Vorheriges Bild">&lsaquo;</button>
+  <div class="lb-stage" id="lbStage"></div>
+  <div class="lb-counter" id="lbCounter"></div>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Nächstes Bild">&rsaquo;</button>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ============================================================
+   WagDas! ZeigDas! – Prototyp-Logik
+   Kein Backend: Daten liegen im JS-Array; Persistenz optional
+   über localStorage (mit Fallback, falls nicht verfügbar).
+   ============================================================ */
+
+/* ---------- Kategorien & Farben (Bosch-Kernpalette) ---------- */
+const CATEGORIES = {
+  "Produktidee":        { color:"#007BC0" },
+  "Prozessverbesserung":{ color:"#18837E" },
+  "Internes Tool":      { color:"#003B6F" },
+  "KI-Idee":            { color:"#9E2896" },
+  "Nachhaltigkeit":     { color:"#00884A" },
+  "Verrückte Idee":     { color:"#00193C" }
+};
+
+/* ---------- Storage-Helfer (localStorage kann fehlen) ---------- */
+const store = {
+  get(key, fallback){
+    try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+    catch(e){ return fallback; }
+  },
+  set(key, val){
+    try{ localStorage.setItem(key, JSON.stringify(val)); }
+    catch(e){ /* z. B. Speicher voll oder blockiert – Prototyp läuft trotzdem */ }
+  }
+};
+
+/* ---------- SVG-Platzhalter-Generator ----------
+   Erzeugt moderne Placeholder-"Bilder" im Bosch-Look:
+   Farbfläche + weißes Line-Icon + Label. */
+function ph(bg, iconPath, label){
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+    <rect width="800" height="500" fill="${bg}"/>
+    <g transform="translate(400,215)" stroke="#FFFFFF" stroke-width="7"
+       fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <g transform="scale(4.6) translate(-12,-12)">${iconPath}</g>
+    </g>
+    <text x="400" y="405" text-anchor="middle" fill="rgba(255,255,255,.85)"
+      font-family="Open Sans, sans-serif" font-size="26" font-weight="700"
+      letter-spacing="3">${label}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+/* Line-Icons (24x24 Pfade) */
+const IC = {
+  scan:   '<rect x="4" y="6" width="16" height="12"/><path d="M4 12h16"/>',
+  bolt:   '<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',
+  torque: '<circle cx="12" cy="12" r="8"/><path d="M12 12l4-3"/><path d="M12 4v2M20 12h-2M12 20v-2M4 12h2"/>',
+  mic:    '<rect x="9" y="3" width="6" height="10"/><path d="M6 11a6 6 0 0012 0M12 17v4"/>',
+  leaf:   '<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19c3-4 6-7 10-9"/>',
+  helmet: '<path d="M4 14a8 8 0 0116 0v2H4v-2z"/><path d="M12 6v-2M4 16l-1 3M20 16l1 3"/>',
+  coffee: '<path d="M5 8h11v7a4 4 0 01-4 4H9a4 4 0 01-4-4V8z"/><path d="M16 9h2a2 2 0 010 4h-2"/><path d="M8 4v2M12 4v2"/>',
+  chip:   '<rect x="7" y="7" width="10" height="10"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+  chart:  '<path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-5M12 16V8M16 16v-8"/>',
+  box:    '<path d="M4 8l8-4 8 4v8l-8 4-8-4V8z"/><path d="M4 8l8 4 8-4M12 12v8"/>',
+  route:  '<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a4 4 0 000-8H10a4 4 0 010-4"/>',
+  smile:  '<circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8"/>'
+};
+
+/* ---------- Beispieldaten ---------- */
+const H = 3600e3; // eine Stunde in ms
+function seedPosts(){
+  const now = Date.now();
+  return [
+    {
+      id:"p1", title:"KI-Assistent für schnellere Steuerprüfung",
+      pitch:"Ein internes KI-Werkzeug, das Belege und Buchungen vorprüft und Prüfer:innen nur die wirklich auffälligen Fälle zeigt. Spart Stunden pro Prüfung – und niemand muss mehr 400 Zeilen manuell scannen.",
+      category:"KI-Idee", author:"Dominik R.", createdAt:now-30*H,
+      votes:47, adminBoost:10, featured:true,
+      media:[
+        {type:"img", src:ph("#9E2896", IC.scan, "BELEG-SCAN")},
+        {type:"img", src:ph("#9E2896", IC.chart, "ANOMALIEN")}
+      ],
+      comments:[
+        {author:"Anusha P.", text:"Bitte direkt mit dem TX.ai Team sprechen – das passt perfekt in die Roadmap.", createdAt:now-26*H},
+        {author:"anonym", text:"Wichtig: Nachvollziehbarkeit der KI-Entscheidung für die Revision mitdenken.", createdAt:now-20*H}
+      ]
+    },
+    {
+      id:"p2", title:"Smarter Akkuschrauber mit Drehmoment-Erkennung",
+      pitch:"Der Schrauber erkennt Material und Schraube automatisch und stellt das Drehmoment selbst ein. Nie wieder überdrehte Schrauben, nie wieder Raten am Stellrad.",
+      category:"Produktidee", author:"Max M.", createdAt:now-75*H,
+      votes:63, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#007BC0", IC.torque, "AUTO-TORQUE")},
+        {type:"img", src:ph("#007BC0", IC.bolt, "SENSORIK")},
+        {type:"img", src:ph("#007BC0", IC.chip, "MATERIAL-KI")}
+      ],
+      comments:[
+        {author:"Lorea A.", text:"Gibt es dazu schon Patente? Kurz recherchieren lohnt sich.", createdAt:now-50*H}
+      ]
+    },
+    {
+      id:"p3", title:"Meeting-Zusammenfasser für interne Calls",
+      pitch:"Ein Tool, das nach jedem Teams-Call automatisch Protokoll, To-dos und Entscheidungen in den Chat postet. Freiwillig aktivierbar, DSGVO-konform gedacht.",
+      category:"Internes Tool", author:"anonym", createdAt:now-8*H,
+      votes:28, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#003B6F", IC.mic, "AUTO-PROTOKOLL")}
+      ],
+      comments:[]
+    },
+    {
+      id:"p4", title:"Mehrweg-Verpackung für Ersatzteile",
+      pitch:"Ersatzteile in stapelbaren Mehrwegboxen mit Pfandsystem statt Einwegkarton. Händler senden leere Boxen gesammelt zurück – weniger Müll, weniger Kosten, besseres Image.",
+      category:"Nachhaltigkeit", author:"Julia K.", createdAt:now-120*H,
+      votes:39, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#00884A", IC.box, "MEHRWEG-BOX")},
+        {type:"img", src:ph("#00884A", IC.route, "RÜCKLAUF-LOGISTIK")},
+        {type:"img", src:ph("#00884A", IC.leaf, "CO2-BILANZ")},
+        {type:"img", src:ph("#00884A", IC.chart, "EINSPARUNG")}
+      ],
+      comments:[
+        {author:"anonym", text:"Bitte an die Reinigung der Boxen denken – das killt sonst die Bilanz.", createdAt:now-90*H},
+        {author:"Michael K.", text:"Es gab mal ein Pilotprojekt dazu, ich suche die Kontakte raus.", createdAt:now-70*H}
+      ]
+    },
+    {
+      id:"p5", title:"Bosch Fahrradhelm mit Crash-Sensorik",
+      pitch:"Helm mit integrierter Sensorik: erkennt Stürze, ruft im Notfall Hilfe, koppelt sich mit dem eBike-System. Licht und Blinker direkt im Helm – Sicherheit als Ökosystem.",
+      category:"Produktidee", author:"Jonas B.", createdAt:now-15*H,
+      votes:22, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#007BC0", IC.helmet, "SMART HELMET")},
+        {type:"img", src:ph("#007BC0", IC.bolt, "CRASH-ALERT")}
+      ],
+      comments:[]
+    },
+    {
+      id:"p6", title:"Kaffeeautomat, der die Teamstimmung erkennt",
+      pitch:"Der Automat misst anonymisiert die Stimmung (freiwilliger Emoji-Tap beim Bezahlen) und zeigt dem Team ein Stimmungsbarometer. Bei Tiefpunkten: Gratis-Espresso für alle.",
+      category:"Verrückte Idee", author:"anonym", createdAt:now-4*H,
+      votes:31, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#00193C", IC.coffee, "MOOD-O-MAT")},
+        {type:"img", src:ph("#00193C", IC.smile, "BAROMETER")}
+      ],
+      comments:[
+        {author:"Kim", text:"Ich lache, aber ich würde es sofort benutzen.", createdAt:now-2*H}
+      ]
+    },
+    {
+      id:"p7", title:"Digitale Schichtübergabe statt Zettelwirtschaft",
+      pitch:"Eine simple Tablet-App am Band: Die Frühschicht spricht 30 Sekunden Sprachnotiz ein, die Spätschicht liest die automatische Zusammenfassung. Keine verlorenen Infos mehr.",
+      category:"Prozessverbesserung", author:"Fatma Ö.", createdAt:now-50*H,
+      votes:18, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#18837E", IC.mic, "SCHICHT-LOG")}
+      ],
+      comments:[]
+    },
+    {
+      id:"p8", title:"Interner Prompt-Marktplatz",
+      pitch:"Eine Bibliothek, in der Teams ihre besten KI-Prompts und Vorlagen teilen – mit Voting, Kategorien und Copy-Button. Damit nicht jede Abteilung das Rad neu promptet.",
+      category:"KI-Idee", author:"anonym", createdAt:now-2*H,
+      votes:9, adminBoost:0, featured:false,
+      media:[
+        {type:"img", src:ph("#9E2896", IC.chip, "PROMPT-HUB")}
+      ],
+      comments:[]
+    }
+  ];
+}
+
+/* ---------- App-State ---------- */
+let posts   = store.get("wagdas-posts-v1", null) || seedPosts();
+let voted   = store.get("wagdas-voted-v1", {});   // { postId: true }
+let adminOn = store.get("wagdas-admin-v1", false);
+let activeTab = "beliebt";
+let activeCat = null;
+
+function persist(){
+  // Videos (Blob-URLs) überleben keinen Reload → beim Speichern entfernen
+  const clean = posts.map(p => ({ ...p, media: p.media.filter(m => m.type !== "video" || m.persist) }));
+  store.set("wagdas-posts-v1", clean);
+  store.set("wagdas-voted-v1", voted);
+}
+
+/* ---------- Utilities ---------- */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const effScore = p => p.votes + (p.adminBoost || 0);
+
+function timeAgo(ts){
+  const m = Math.floor((Date.now()-ts)/60000);
+  if(m < 1)   return "gerade eben";
+  if(m < 60)  return `vor ${m} Min.`;
+  const h = Math.floor(m/60);
+  if(h < 24)  return `vor ${h} Std.`;
+  const d = Math.floor(h/24);
+  return d === 1 ? "gestern" : `vor ${d} Tagen`;
+}
+function initials(name){
+  if(!name || name === "anonym") return "?";
+  return name.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+}
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+
+/* ---------- Sortierung / Filter ---------- */
+function sortedPosts(){
+  let list = [...posts];
+  if(activeCat) list = list.filter(p => p.category === activeCat);
+  switch(activeTab){
+    case "neu":
+      list.sort((a,b)=>b.createdAt-a.createdAt); break;
+    case "trending":
+      // Score gedämpft durch Alter → frische Ideen mit Votes steigen auf
+      list.sort((a,b)=>{
+        const s = p => effScore(p) / Math.pow(((Date.now()-p.createdAt)/H)+6, 1.25);
+        return s(b)-s(a);
+      }); break;
+    case "picks":
+      list = list.filter(p => p.featured || (p.adminBoost||0) > 0);
+      list.sort((a,b)=>effScore(b)-effScore(a)); break;
+    default: // beliebt
+      list.sort((a,b)=>effScore(b)-effScore(a));
+  }
+  return list;
+}
+
+/* ---------- Rendering ---------- */
+function mediaGridHTML(p){
+  if(!p.media.length) return "";
+  const items = p.media.slice(0,4).map((m,i)=>{
+    if(m.type === "video"){
+      return `<div class="media-item" data-media="${i}">
+        <video src="${m.src}" preload="metadata" muted></video>
+        <div class="play-badge"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z"/></svg></span></div>
+      </div>`;
+    }
+    return `<div class="media-item" data-media="${i}">
+      <img src="${m.src}" alt="Medienvorschau ${i+1} zu: ${esc(p.title)}" loading="lazy">
+    </div>`;
+  }).join("");
+  return `<div class="media-grid" data-n="${Math.min(p.media.length,4)}">${items}</div>`;
+}
+
+function cardHTML(p){
+  const cat = CATEGORIES[p.category] || { color:"#4E5256" };
+  const boosted = (p.adminBoost||0) > 0;
+  const isVoted = !!voted[p.id];
+  const commentsHTML = p.comments.map(c=>`
+    <div class="comment">
+      <div class="avatar" style="background:${CATEGORIES[p.category]?.color || '#00193C'}">${initials(c.author)}</div>
+      <div><b>${esc(c.author||"anonym")}</b> · <span style="color:var(--ink-40);font-size:.72rem">${timeAgo(c.createdAt)}</span>
+        <p>${esc(c.text)}</p>
+      </div>
+    </div>`).join("");
+
+  return `<article class="card" id="idee-${p.id}" data-id="${p.id}">
+    ${mediaGridHTML(p)}
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="tag" style="background:${cat.color}">${esc(p.category)}</span>
+        ${p.featured ? `<span class="badge badge-pick">★ Admin Pick</span>` : ""}
+        ${boosted ? `<span class="badge badge-boost">Admin Boost +${p.adminBoost}</span>` : ""}
+      </div>
+      <h3>${esc(p.title)}</h3>
+      <p class="pitch">${esc(p.pitch)}</p>
+      <div class="byline">
+        <div class="avatar">${initials(p.author)}</div>
+        <span><b>${esc(p.author||"anonym")}</b> · ${timeAgo(p.createdAt)}</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="act act-vote ${isVoted?'voted':''}" data-act="vote" aria-pressed="${isVoted}" aria-label="Idee hochvoten">
+        <svg viewBox="0 0 24 24"><path d="M12 4l7 8h-4v8h-6v-8H5l7-8z"/></svg>
+        <span class="count">${effScore(p)}</span>
+      </button>
+      <button class="act" data-act="comments" aria-label="Kommentare anzeigen">
+        <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-8 8H4l2-3a8 8 0 1115-5z"/></svg>
+        ${p.comments.length}
+      </button>
+      <button class="act act-share" data-act="share" aria-label="Idee teilen">
+        <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/></svg>
+        Teilen
+      </button>
+    </div>
+    <div class="comments" data-comments>
+      ${commentsHTML || `<p style="font-size:.8rem;color:var(--ink-40);margin-bottom:12px">Noch keine Kommentare. Sei konstruktiv – hart zur Idee, freundlich zum Menschen.</p>`}
+      <div class="comment-form">
+        <input type="text" class="c-name" maxlength="40" placeholder="Name (optional)" aria-label="Dein Name, optional">
+        <input type="text" class="c-text" maxlength="240" placeholder="Konstruktives Feedback …" aria-label="Kommentar schreiben">
+        <button class="btn btn-primary" data-act="send-comment">Senden</button>
+      </div>
+    </div>
+    <div class="admin-bar">
+      <button class="abtn" data-act="boost">Boost +10</button>
+      <button class="abtn ${p.featured?'on':''}" data-act="feature">${p.featured?'★ Featured':'☆ Feature'}</button>
+      <span class="ainfo">Votes ${p.votes} · Boost ${p.adminBoost||0}</span>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const list = sortedPosts();
+  const grid = $("#feedGrid");
+  grid.innerHTML = list.length
+    ? list.map(cardHTML).join("")
+    : `<div class="feed-empty"><b>Hier ist noch nichts.</b>
+       ${activeTab==="picks" ? "Es gibt aktuell keine Admin Picks." : "Poste die erste Idee in dieser Kategorie."}</div>`;
+}
+
+/* ---------- Kategorie-Chips (Toolbar + Formular) ---------- */
+function buildChips(){
+  $("#catChips").innerHTML =
+    `<button class="chip ${!activeCat?'active':''}" data-cat="">Alle</button>` +
+    Object.keys(CATEGORIES).map(c =>
+      `<button class="chip ${activeCat===c?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+}
+function buildCatSelect(){
+  $("#catSelect").innerHTML = Object.entries(CATEGORIES).map(([c,v]) =>
+    `<button type="button" class="cat-opt" data-val="${esc(c)}" data-color="${v.color}">${esc(c)}</button>`).join("");
+}
+
+/* ---------- Events: Toolbar ---------- */
+$$(".tab").forEach(t => t.addEventListener("click", () => {
+  $$(".tab").forEach(x => x.setAttribute("aria-selected", x===t ? "true" : "false"));
+  activeTab = t.dataset.tab;
+  render();
+}));
+$("#catChips").addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if(!chip) return;
+  activeCat = chip.dataset.cat || null;
+  buildChips(); render();
+});
+
+/* ---------- Events: Feed (Delegation) ---------- */
+$("#feedGrid").addEventListener("click", e => {
+  const card = e.target.closest(".card");
+  if(!card) return;
+  const post = posts.find(p => p.id === card.dataset.id);
+  if(!post) return;
+
+  // Medien → Lightbox
+  const media = e.target.closest(".media-item");
+  if(media){ openLightbox(post, +media.dataset.media); return; }
+
+  const btn = e.target.closest("[data-act]");
+  if(!btn) return;
+
+  switch(btn.dataset.act){
+    case "vote": {
+      const el = card.querySelector(".act-vote");
+      if(voted[post.id]){ post.votes--; delete voted[post.id]; }
+      else { post.votes++; voted[post.id] = true; }
+      el.classList.toggle("voted", !!voted[post.id]);
+      el.setAttribute("aria-pressed", !!voted[post.id]);
+      el.querySelector(".count").textContent = effScore(post);
+      el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+      persist();
+      break;
+    }
+    case "comments":
+      card.querySelector("[data-comments]").classList.toggle("open");
+      break;
+    case "send-comment": {
+      const text = card.querySelector(".comment-form .c-text").value.trim();
+      const name = card.querySelector(".comment-form .c-name").value.trim();
+      if(!text) return;
+      post.comments.push({ author:(name || "anonym"), text, createdAt:Date.now() });
+      persist(); render();
+      const c = document.getElementById("idee-"+post.id);
+      c?.querySelector("[data-comments]")?.classList.add("open");
+      toast("Kommentar gepostet");
+      break;
+    }
+    case "share": sharePost(post); break;
+    case "boost":
+      post.adminBoost = (post.adminBoost||0) + 10;
+      persist(); render();
+      toast(`„${post.title}" geboostet (+10)`);
+      break;
+    case "feature":
+      post.featured = !post.featured;
+      persist(); render();
+      toast(post.featured ? "Als Admin Pick markiert" : "Admin Pick entfernt");
+      break;
+  }
+});
+
+/* ---------- Teilen (Social-Mechanik) ----------
+   Jeder Post hat einen Deep-Link (#idee-ID). Web Share API,
+   Fallback: Link in Zwischenablage. */
+function postUrl(p){
+  return location.origin + location.pathname + "#idee-" + p.id;
+}
+async function sharePost(p){
+  const url = postUrl(p);
+  const data = { title:"WagDas! ZeigDas! – " + p.title, text:p.pitch, url };
+
+  // 1) Natives Share-Sheet – nur in sicheren Kontexten (https) verfügbar.
+  //    Auf file:// oder http wirft navigator.share einen Fehler → still abfangen.
+  if(navigator.share && window.isSecureContext && (!navigator.canShare || navigator.canShare(data))){
+    try{ await navigator.share(data); return; }
+    catch(e){ if(e && e.name === "AbortError") return; /* sonst: weiter zu Kopieren */ }
+  }
+
+  // 2) Link kopieren (moderne API, dann Legacy-Fallback für file://)
+  if(await copyText(url)){
+    toast("Link kopiert – teile die Idee!");
+  }else{
+    // 3) Letzter Ausweg: Link anzeigen
+    prompt("Link zum Teilen (Strg/Cmd+C):", url);
+  }
+}
+
+/* Kopieren mit Fallback: Clipboard API braucht https,
+   execCommand("copy") funktioniert auch lokal (file://). */
+async function copyText(text){
+  if(navigator.clipboard && window.isSecureContext){
+    try{ await navigator.clipboard.writeText(text); return true; }catch(e){}
+  }
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly","");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  }catch(e){ return false; }
+}
+/* Deep-Link beim Laden: Karte hervorheben */
+function handleHash(){
+  const id = location.hash.replace("#idee-","");
+  if(!id) return;
+  requestAnimationFrame(()=>{
+    const el = document.getElementById("idee-"+id);
+    if(el){
+      el.scrollIntoView({ behavior:"smooth", block:"center" });
+      el.classList.add("highlight");
+      setTimeout(()=>el.classList.remove("highlight"), 3200);
+    }
+  });
+}
+
+/* ---------- Modals ---------- */
+function openModal(sel){ $(sel).classList.add("open"); document.body.style.overflow="hidden"; }
+function closeModals(){
+  $$(".modal").forEach(m=>m.classList.remove("open"));
+  document.body.style.overflow="";
+}
+$$("[data-open-post]").forEach(b=>b.addEventListener("click", ()=>openModal("#postModal")));
+$("#btnOpenPostTop").addEventListener("click", ()=>openModal("#postModal"));
+$$("[data-open-legal]").forEach(b=>b.addEventListener("click", ()=>openModal("#legalModal")));
+$$("[data-close-modal]").forEach(b=>b.addEventListener("click", closeModals));
+$$(".modal").forEach(m=>m.addEventListener("click", e=>{ if(e.target===m) closeModals(); }));
+
+/* ---------- Formular: Idee posten ---------- */
+let formImages = [];       // dataURLs (persistieren im localStorage)
+let formVideo  = null;     // { src, file } – Blob-URL, nur für die Session
+let formCat    = null;
+
+$("#fPitch").addEventListener("input", e=>{
+  const n = e.target.value.length;
+  const c = $("#pitchCounter");
+  c.textContent = `${n} / 280`;
+  c.classList.toggle("limit", n >= 260);
+});
+
+$("#catSelect").addEventListener("click", e=>{
+  const opt = e.target.closest(".cat-opt");
+  if(!opt) return;
+  formCat = opt.dataset.val;
+  $$(".cat-opt").forEach(o=>{
+    const on = o === opt;
+    o.classList.toggle("active", on);
+    o.style.background = on ? o.dataset.color : "";
+  });
+});
+
+/* Bild-Upload: Dropzone + Dateiauswahl, max. 4, clientseitig komprimiert */
+const dz = $("#dropzone");
+dz.addEventListener("click", ()=>$("#fileImages").click());
+dz.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); $("#fileImages").click(); }});
+["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.add("drag"); }));
+["dragleave","drop"].forEach(ev=>dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.remove("drag"); }));
+dz.addEventListener("drop", e=>addImages([...e.dataTransfer.files].filter(f=>f.type.startsWith("image/"))));
+$("#fileImages").addEventListener("change", e=>{ addImages([...e.target.files]); e.target.value=""; });
+
+function addImages(files){
+  if(!files.length) return;
+  if(formImages.length + files.length > 4){
+    showError("Maximal 4 Bilder pro Idee – wähle deine stärksten aus.");
+    files = files.slice(0, 4 - formImages.length);
+  }
+  files.forEach(f => compressImage(f).then(dataUrl=>{
+    formImages.push(dataUrl);
+    renderImagePreviews();
+  }));
+}
+/* leichte Kompression: max. 1400px Kante, JPEG 0.82 */
+function compressImage(file, maxEdge=1400){
+  return new Promise(res=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const s = Math.min(1, maxEdge / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas");
+      cv.width  = Math.round(img.width  * s);
+      cv.height = Math.round(img.height * s);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      res(cv.toDataURL("image/jpeg", .82));
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = ()=>res(null);
+    img.src = URL.createObjectURL(file);
+  });
+}
+function renderImagePreviews(){
+  $("#imgPreviews").innerHTML = formImages.map((src,i)=>
+    `<div class="up-thumb"><img src="${src}" alt="Upload ${i+1}">
+     <button type="button" data-rm-img="${i}" aria-label="Bild entfernen">✕</button></div>`).join("");
+}
+$("#imgPreviews").addEventListener("click", e=>{
+  const b = e.target.closest("[data-rm-img]");
+  if(!b) return;
+  formImages.splice(+b.dataset.rmImg, 1);
+  renderImagePreviews();
+});
+
+/* Video-Upload (1 Datei, Blob-URL, Session-only) */
+$("#btnVideo").addEventListener("click", ()=>$("#fileVideo").click());
+$("#fileVideo").addEventListener("change", e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  formVideo = { src:URL.createObjectURL(f), name:f.name };
+  $("#vidPreview").innerHTML =
+    `<div class="up-thumb"><div class="vph">▶ VIDEO</div>
+     <button type="button" data-rm-vid aria-label="Video entfernen">✕</button></div>
+     <p style="font-size:.72rem;color:var(--ink-40);align-self:center">${esc(f.name)} · nur in dieser Session sichtbar</p>`;
+  e.target.value="";
+});
+$("#vidPreview").addEventListener("click", e=>{
+  if(!e.target.closest("[data-rm-vid]")) return;
+  if(formVideo) URL.revokeObjectURL(formVideo.src);
+  formVideo = null;
+  $("#vidPreview").innerHTML = "";
+});
+
+function showError(msg){
+  const el = $("#formError");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(el._h);
+  el._h = setTimeout(()=>el.classList.remove("show"), 4200);
+}
+
+/* Veröffentlichen */
+$("#btnPublish").addEventListener("click", ()=>{
+  const title = $("#fTitle").value.trim();
+  const pitch = $("#fPitch").value.trim();
+  if(!title)   return showError("Gib deiner Idee einen Titel.");
+  if(!pitch)   return showError("Ein Satz Pitch reicht – aber einer muss sein.");
+  if(!formCat) return showError("Wähle eine Kategorie.");
+
+  const media = formImages.map(src=>({ type:"img", src }));
+  if(formVideo) media.push({ type:"video", src:formVideo.src });
+  if(!media.length){
+    // Kein Upload? Automatischer Kategorie-Platzhalter, damit die Card visuell bleibt.
+    media.push({ type:"img", src:ph(CATEGORIES[formCat].color, IC.bolt, formCat.toUpperCase()) });
+  }
+
+  const post = {
+    id:"p"+Date.now(),
+    title, pitch,
+    category:formCat,
+    author:($("#fAuthor").value.trim() || "anonym"),
+    createdAt:Date.now(),
+    votes:1, adminBoost:0, featured:false,
+    media, comments:[]
+  };
+  voted[post.id] = true;      // eigener Post = erster Vote
+  posts.unshift(post);
+  persist();
+
+  // Formular zurücksetzen
+  $("#fTitle").value=""; $("#fPitch").value=""; $("#fAuthor").value="";
+  $("#pitchCounter").textContent="0 / 280";
+  formImages=[]; formVideo=null; formCat=null;
+  renderImagePreviews(); $("#vidPreview").innerHTML="";
+  $$(".cat-opt").forEach(o=>{ o.classList.remove("active"); o.style.background=""; });
+
+  closeModals();
+  activeTab = "neu";
+  $$(".tab").forEach(x=>x.setAttribute("aria-selected", x.dataset.tab==="neu" ? "true":"false"));
+  render();
+  document.getElementById("idee-"+post.id)?.scrollIntoView({ behavior:"smooth", block:"center" });
+  toast("Deine Idee ist live! 🎉 Teile sie mit deinem Team.");
+});
+
+/* ---------- Lightbox ---------- */
+let lb = { items:[], idx:0 };
+function openLightbox(post, idx){
+  lb.items = post.media.slice(0,4);
+  lb.idx = idx;
+  renderLightbox();
+  $("#lightbox").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function renderLightbox(){
+  const m = lb.items[lb.idx];
+  $("#lbStage").innerHTML = m.type === "video"
+    ? `<video src="${m.src}" controls autoplay></video>`
+    : `<img src="${m.src}" alt="Bild ${lb.idx+1} von ${lb.items.length}">`;
+  $("#lbCounter").textContent = `${lb.idx+1} / ${lb.items.length}`;
+  const single = lb.items.length < 2;
+  $("#lbPrev").style.display = single ? "none" : "";
+  $("#lbNext").style.display = single ? "none" : "";
+}
+function lbStep(d){ lb.idx = (lb.idx + d + lb.items.length) % lb.items.length; renderLightbox(); }
+$("#lbPrev").addEventListener("click", ()=>lbStep(-1));
+$("#lbNext").addEventListener("click", ()=>lbStep(1));
+$("#lbClose").addEventListener("click", closeLightbox);
+$("#lightbox").addEventListener("click", e=>{ if(e.target.id==="lightbox") closeLightbox(); });
+function closeLightbox(){
+  $("#lightbox").classList.remove("open");
+  $("#lbStage").innerHTML = "";           // stoppt laufende Videos
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown", e=>{
+  if($("#lightbox").classList.contains("open")){
+    if(e.key==="Escape") closeLightbox();
+    if(e.key==="ArrowLeft") lbStep(-1);
+    if(e.key==="ArrowRight") lbStep(1);
+  } else if(e.key==="Escape"){
+    closeModals();
+  }
+});
+
+/* ---------- Admin Mode: Login per Codewort (Footer) ----------
+   Hinweis: Im Prototyp steht das Codewort im Quellcode – für einen
+   echten Launch gehört hier eine serverseitige Authentifizierung hin. */
+const ADMIN_CODE = "WAGDAS2026";
+
+function applyAdmin(){
+  document.body.classList.toggle("admin", adminOn);
+  const btn = $("#adminLoginBtn");
+  if(btn) btn.textContent = adminOn ? "Admin Logout" : "Admin Login";
+}
+$("#adminLoginBtn").addEventListener("click", ()=>{
+  if(adminOn){
+    adminOn = false;
+    store.set("wagdas-admin-v1", false);
+    applyAdmin();
+    toast("Admin Mode beendet");
+  }else{
+    $("#adminCode").value = "";
+    $("#adminError").classList.remove("show");
+    openModal("#adminModal");
+    setTimeout(()=>$("#adminCode").focus(), 50);
+  }
+});
+function tryAdminLogin(){
+  if($("#adminCode").value.trim() === ADMIN_CODE){
+    adminOn = true;
+    store.set("wagdas-admin-v1", true);
+    applyAdmin();
+    closeModals();
+    toast("Admin Mode aktiv – du kannst boosten & featuren");
+  }else{
+    const el = $("#adminError");
+    el.textContent = "Falsches Codewort.";
+    el.classList.add("show");
+  }
+}
+$("#btnAdminSubmit").addEventListener("click", tryAdminLogin);
+$("#adminCode").addEventListener("keydown", e=>{ if(e.key==="Enter") tryAdminLogin(); });
+
+/* ---------- Init ---------- */
+buildChips();
+buildCatSelect();
+applyAdmin();
+render();
+handleHash();
+window.addEventListener("hashchange", handleHash);
+</script>
+</body>
+</html>
